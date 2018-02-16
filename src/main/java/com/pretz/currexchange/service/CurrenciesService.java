@@ -1,5 +1,7 @@
 package com.pretz.currexchange.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pretz.currexchange.domain.Currencies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,7 @@ public class CurrenciesService {
 
     private final RestTemplate currenciesRestTemplate;
     private String nbpApiUrl;
+    //private String currencies;
 
     @Autowired
     public CurrenciesService(RestTemplateBuilder restTemplateBuilder) {
@@ -28,7 +31,8 @@ public class CurrenciesService {
     @Bean
     public CommandLineRunner run() {
         return args -> {
-            String currencies = currenciesRestTemplate.getForObject(nbpApiUrl, String.class, "");
+            String currenciesString = currenciesRestTemplate.getForObject(nbpApiUrl, String.class, "");
+            Currencies[] currencies = new ObjectMapper().readValue(currenciesString, Currencies[].class);
         };
     }
 }

@@ -1,18 +1,42 @@
 package com.pretz.currexchange.domain;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Date;
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Currencies {
 
-    private Map<String, BigDecimal> currencyMap;
+    private Date effectiveDate;
+    private List<Currency> currencyList;
 
     public Currencies() {
-        currencyMap = new HashMap<>();
     }
 
-    public void addCurrency(String code, BigDecimal rate) {
-        currencyMap.put(code, rate);
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public List<Currency> getCurrencyList() {
+        return currencyList;
+    }
+
+    @JsonProperty("rates")
+    public void setCurrencyList(List<Currency> currencyList) {
+        this.currencyList = currencyList;
+    }
+
+    @Override
+    public String toString() {
+        return "Currencies{" +
+                "effectiveDate=" + effectiveDate +
+                ", currencyList=" + currencyList +
+                '}';
     }
 }
